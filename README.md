@@ -74,10 +74,11 @@ npm run dev
 │   ├── package.json
 │   ├── public
 │   ├── src
+│   ├── vercel.json
 │   └── vite.config.js
 └── tree.txt
 
-4 directories, 7 files
+4 directories, 8 files
 ```
 <!-- PROJECT_TREE_END -->
 
