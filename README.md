@@ -65,7 +65,19 @@ npm run dev
 
 <!-- PROJECT_TREE_START -->
 ```text
-Loading...
+.
+├── README.md
+├── dice-game
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── public
+│   ├── src
+│   └── vite.config.js
+└── tree.txt
+
+4 directories, 7 files
 ```
 <!-- PROJECT_TREE_END -->
 
