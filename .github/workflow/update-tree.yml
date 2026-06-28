@@ -1,0 +1,59 @@
+name: Update Repository Tree
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-tree:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tree
+        run: sudo apt-get update && sudo apt-get install tree -y
+
+      - name: Generate tree
+        run: |
+          echo '```text' > tree.txt
+          tree -L 2 -I '.git|node_modules|dist|.github' >> tree.txt
+          echo '```' >> tree.txt
+
+      - name: Update README
+        run: |
+          awk '
+          BEGIN {inside=0}
+          /<!-- PROJECT_TREE_START -->/ {
+            print
+            while ((getline line < "tree.txt") > 0) print line
+            inside=1
+            next
+          }
+          /<!-- PROJECT_TREE_END -->/ {
+            inside=0
+            print
+            next
+          }
+          !inside
+          ' README.md > README.tmp
+
+          mv README.tmp README.md
+
+      - name: Commit Changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+          git add README.md
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update repository tree"
+            git push
+          fi
